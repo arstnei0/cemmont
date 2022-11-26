@@ -1,0 +1,20 @@
+{
+	"private": true,
+	"scripts": {
+		"build": "nuxt build",
+		"dev": "nuxt dev",
+		"generate": "nuxt generate",
+		"preview": "nuxt preview",
+		"postinstall": "nuxt prepare",
+		"format": "prettier --write ."
+	},
+	"devDependencies": {
+		"nuxt": "3.0.0",
+		"prettier": "^2.8.0"
+	},
+	"dependencies": {
+		"@nuxtjs/auth-next": "5.0.0-1667386184.dfbbb54",
+		"@nuxtjs/i18n": "^7.3.0",
+		"pinia": "^2.0.26"
+	}
+}
