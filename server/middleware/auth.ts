@@ -10,7 +10,6 @@ export default defineEventHandler(async (e) => {
         if (email) {
             e.context.authorized = true
             e.context.email = email
-            e.context.getUser = async () => await db.getUserByEmail(email)
         } else {
             e.context.authorized = false
             setCookie(e, 'token', '')

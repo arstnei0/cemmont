@@ -1,6 +1,10 @@
 <template>
 	<VLayout>
-		<VAppBar :elevation="5" rounded> </VAppBar>
+		<VAppBar :elevation="5" rounded>
+			<ClientOnly>
+				<Header></Header>
+			</ClientOnly>
+		</VAppBar>
 		<VMain>
 			<main>
 				<slot />

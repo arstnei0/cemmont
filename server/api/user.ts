@@ -2,7 +2,8 @@ import { tokens } from "../cache"
 import { db } from "../db"
 
 export default defineEventHandler(async e => {
-    if (e.context.authorized) {
-        return e.context.getUser()
+    return e.context.requireAuthorization() || {
+        status: 200,
+        body: await db.getUserByEmail(e.context.email)
     }
 })

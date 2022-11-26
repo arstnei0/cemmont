@@ -1,7 +1,8 @@
 import { defineStore } from "pinia"
+import { goToLogin } from "./goToLogin"
 
 export interface UserStore {
-	loggedIn: boolean
+	authorized: boolean
 	user?: User
 }
 
@@ -26,11 +27,19 @@ export enum UserLoginResult {
 }
 
 export const useUserStore = defineStore("user", {
-	state: () =>
-		({
-			loggedIn: false,
-			user: undefined,
-		} as UserStore),
+	state: () => {
+		let authorized = false
+		const token = useCookie('token').value
+
+		if (token) {
+			authorized = true
+		}
+
+		return {
+			token,
+			authorized,
+		}
+	},
 	actions: {
 		async register(user: {
 			username: string
@@ -67,10 +76,7 @@ export const useUserStore = defineStore("user", {
 
 			const data = result.data.value as any
 			if (data.status === 200) {
-				this.user = {
-					...(result.data.value as any).body,
-				}
-				this.loggedIn = true
+				this.authorized = true
 
 				return UserLoginResult.Success
 			} else if (data.status === 400) {
@@ -79,5 +85,13 @@ export const useUserStore = defineStore("user", {
 				return UserLoginResult.Unknown
 			}
 		},
+		async getUser() {
+			const result = (await useFetch('/api/user')).data.value as any
+			if (result?.status === 200) {
+				return result?.body
+			} else {
+				return
+			}
+		}
 	},
 })
