@@ -11,4 +11,13 @@ export default defineNuxtConfig({
 			reset: process.env.DB_RESET === "true",
 		},
 	},
+	css: ["vuetify/lib/styles/main.sass", "/styles/global.css"],
+	build: {
+		transpile: ["vuetify"],
+	},
+	vite: {
+		define: {
+			"process.env.DEBUG": false,
+		},
+	},
 })

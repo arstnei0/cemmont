@@ -6,7 +6,7 @@ const config = useRuntimeConfig()
 const sql = postgres({
 	...config.db,
 	ssl: { rejectUnauthorized: false },
-})
+} as any)
 
 const reset = async () => {
 	log("Reseting tables:")
@@ -28,10 +28,12 @@ if (config.db.reset) reset()
 
 const checkIfUserExists = async (user: { email: string }) => {
 	return (
-		await sql`
+		(
+			await sql`
 	SELECT * FROM Users WHERE email = ${user.email}
 	`
-	)[0]
+		).count > 0
+	)
 }
 
 const createUser = async (user: {
@@ -43,12 +45,38 @@ const createUser = async (user: {
 	INSERT INTO Users ${sql(user, "username", "email", "password")} RETURNING *
 	`
 
-	return result[0]
+	return result
 }
+
+const loginUser = async (user: {
+	usernameOrEmail: string
+	password: string
+}): Promise<boolean> => {
+	const result = await sql`
+	SELECT *
+	FROM Users
+	WHERE ((username = ${user.usernameOrEmail} OR email = ${user.usernameOrEmail}) AND password = ${user.password})
+	`
+
+	return result.count === 1
+}
+
+const getEmail = async (usernameOrEmail: string) => (
+	await sql`SELECT email
+	FROM Users
+	WHERE (username = ${usernameOrEmail} OR email = ${usernameOrEmail})`
+)[0]?.email
+
+const getUserByEmail = async (email: string) => (
+	await sql`SELECT * FROM Users WHERE email = ${email}`
+)[0]
 
 export const db = {
 	sql,
 	reset,
 	checkIfUserExists,
 	createUser,
+	loginUser,
+	getEmail,
+	getUserByEmail,
 }

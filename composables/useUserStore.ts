@@ -10,12 +10,19 @@ export interface User {
 	email: string
 }
 
-export enum UserLoginResult {
+export enum UserRegisterResult {
 	Exists,
 	Success,
 	ServerError,
 	Unknown,
 	Missing,
+}
+
+export enum UserLoginResult {
+	Success,
+	Missing,
+	Wrong,
+	Unknown,
 }
 
 export const useUserStore = defineStore("user", {
@@ -25,32 +32,49 @@ export const useUserStore = defineStore("user", {
 			user: undefined,
 		} as UserStore),
 	actions: {
-		async login(props: {
+		async register(user: {
 			username: string
 			email: string
 			password: string
 		}) {
 			const result = await useFetch("/api/register", {
 				method: "POST",
-				body: JSON.stringify({
-					...props,
-				}),
+				body: user,
 			})
 
 			const status = (result.data.value as any).status
 			if (status === 409) {
-				return UserLoginResult.Exists
+				return UserRegisterResult.Exists
 			} else if (status === 500) {
-				return UserLoginResult.ServerError
+				return UserRegisterResult.ServerError
 			} else if (status === 422) {
-				return UserLoginResult.Missing
+				return UserRegisterResult.Missing
 			} else if (status === 200) {
+				return UserRegisterResult.Success
+			} else {
+				return UserRegisterResult.Unknown
+			}
+		},
+		async login(user: { usernameOrEmail?: string; password: string }) {
+			if (!user.usernameOrEmail || !user.password) {
+				return UserLoginResult.Missing
+			}
+
+			const result = await useFetch("api/login", {
+				method: "POST",
+				body: user,
+			})
+
+			const data = result.data.value as any
+			if (data.status === 200) {
 				this.user = {
 					...(result.data.value as any).body,
 				}
 				this.loggedIn = true
 
 				return UserLoginResult.Success
+			} else if (data.status === 400) {
+				return UserLoginResult.Wrong
 			} else {
 				return UserLoginResult.Unknown
 			}
