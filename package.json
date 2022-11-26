@@ -13,8 +13,9 @@
 		"prettier": "^2.8.0"
 	},
 	"dependencies": {
-		"@nuxtjs/auth-next": "5.0.0-1667386184.dfbbb54",
-		"@nuxtjs/i18n": "^7.3.0",
-		"pinia": "^2.0.26"
+		"pinia": "^2.0.26",
+		"postgres": "^3.3.2",
+		"vitest": "^0.25.3",
+		"vue": "^3.2.45"
 	}
 }
