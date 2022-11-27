@@ -29,7 +29,7 @@ export enum UserLoginResult {
 export const useUserStore = defineStore("user", {
 	state: () => {
 		let authorized = false
-		const token = useCookie('token').value
+		const token = useCookie("token").value
 
 		if (token) {
 			authorized = true
@@ -59,13 +59,12 @@ export const useUserStore = defineStore("user", {
 					return UserRegisterResult.ServerError
 				} else if (status === 422) {
 					return UserRegisterResult.Missing
-				}else {
+				} else {
 					return UserRegisterResult.Unknown
 				}
 			} else {
 				return UserRegisterResult.Success
 			}
-			
 		},
 		async login(user: { usernameOrEmail?: string; password: string }) {
 			if (!user.usernameOrEmail || !user.password) {
@@ -86,18 +85,17 @@ export const useUserStore = defineStore("user", {
 				}
 			} else {
 				this.authorized = true
-	
+
 				return UserLoginResult.Success
 			}
 		},
 		async getUser() {
-			const result = await useFetch('/api/user')
-			console.log(result)
+			const result = await useFetch("/api/user")
 			if (!result.error.value) {
 				return result.data.value
 			} else {
 				return
 			}
-		}
+		},
 	},
 })

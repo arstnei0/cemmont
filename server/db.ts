@@ -22,6 +22,19 @@ const reset = async () => {
 	)
 	`
 	log(`Table Users reset.`)
+
+	await sql`
+	DROP TABLE IF EXISTS Sites
+	`
+	await sql`
+	CREATE TABLE Sites (
+		owner TEXT NOT NULL,
+		name TEXT NOT NULL,
+		id VARCHAR(50) PRIMARY KEY NOT NULL
+	)
+	`
+
+	log(`Table Sites reset.`)
 }
 
 if (config.db.reset) reset()
@@ -61,15 +74,33 @@ const loginUser = async (user: {
 	return result.count === 1
 }
 
-const getEmail = async (usernameOrEmail: string) => (
-	await sql`SELECT email
+const getEmail = async (usernameOrEmail: string) =>
+	(
+		await sql`SELECT email
 	FROM Users
 	WHERE (username = ${usernameOrEmail} OR email = ${usernameOrEmail})`
-)[0]?.email
+	)[0]?.email
 
-const getUserByEmail = async (email: string) => (
-	await sql`SELECT * FROM Users WHERE email = ${email}`
-)[0]
+const getUserByEmail = async (email: string) =>
+	(await sql`SELECT * FROM Users WHERE email = ${email}`)[0]
+
+export interface Site {
+	name: string
+	owner: string
+	id: string
+}
+
+const createSite = async (site: Site) => {
+	return await sql`
+	INSERT INTO Sites ${sql(site)}
+	`
+}
+
+const getSitesByOwner = async (owner: string) => {
+	return await sql`
+	SELECT * FROM Sites WHERE owner = ${owner}
+	`
+}
 
 export const db = {
 	sql,
@@ -78,5 +109,7 @@ export const db = {
 	createUser,
 	loginUser,
 	getEmail,
+	createSite,
 	getUserByEmail,
+	getSitesByOwner,
 }

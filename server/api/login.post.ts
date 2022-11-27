@@ -8,10 +8,15 @@ export default defineEventHandler(async (e) => {
 	const success = await db.loginUser(body)
 
 	if (success) {
-		setCookie(e, 'token', await generateToken(await db.getEmail(body.usernameOrEmail)), {
-			maxAge: 86400000
-		})
-		
+		setCookie(
+			e,
+			"token",
+			await generateToken(await db.getEmail(body.usernameOrEmail)),
+			{
+				maxAge: 86400000,
+			}
+		)
+
 		return responseWithStatus(e, {
 			status: 200,
 			body: "login successfully",
@@ -25,6 +30,6 @@ export default defineEventHandler(async (e) => {
 
 	return responseWithStatus(e, {
 		status: 500,
-		body: 'unknown error',
+		body: "unknown error",
 	})
 })

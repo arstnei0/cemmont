@@ -27,7 +27,6 @@ export default defineEventHandler(async (e) => {
 
 	try {
 		const result = await db.createUser(body)
-		console.log(result)
 
 		return responseWithStatus(e, {
 			status: 200,
