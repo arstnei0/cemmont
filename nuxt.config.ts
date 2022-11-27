@@ -9,6 +9,7 @@ export default defineNuxtConfig({
 			username: process.env.DB_USER,
 			password: process.env.DB_PASSWORD,
 			reset: process.env.DB_RESET === "true",
+			redis: process.env.DB_REDIS,
 		},
 	},
 	css: ["vuetify/lib/styles/main.sass", "/styles/global.css"],

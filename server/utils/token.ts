@@ -1,4 +1,4 @@
-import { tokens } from "./cache"
+import { tokens } from "../cache"
 import { hash } from "./hash"
 
 export const generateToken = async (identifier: string, ttl = 86400000) => {

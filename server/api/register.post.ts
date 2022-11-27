@@ -1,15 +1,16 @@
 import { db } from "~~/server/db"
+import { responseWithStatus } from "../utils/responseWithStatus"
 
 export default defineEventHandler(async (e) => {
 	const body = await readBody(e)
 
 	if (!body.username || !body.password || !body.email) {
 		const message = "username, password or email missing"
-		return {
+		return responseWithStatus(e, {
 			status: 422,
 			statusText: message,
 			body: message,
-		}
+		})
 	}
 
 	if (
@@ -18,25 +19,25 @@ export default defineEventHandler(async (e) => {
 		})
 	) {
 		const message = "user already exists"
-		return {
+		return responseWithStatus(e, {
 			status: 409,
 			body: message,
-		}
+		})
 	}
 
 	try {
 		const result = await db.createUser(body)
 		console.log(result)
 
-		return {
+		return responseWithStatus(e, {
 			status: 200,
 			body: result,
-		}
-	} catch (e) {
+		})
+	} catch (err) {
 		const message = "server error"
-		return {
+		return responseWithStatus(e, {
 			status: 500,
 			body: message,
-		}
+		})
 	}
 })

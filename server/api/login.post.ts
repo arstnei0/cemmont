@@ -1,6 +1,7 @@
 import { db } from "~~/server/db"
 import { tokens } from "../cache"
-import { generateToken } from "../token"
+import { responseWithStatus } from "../utils/responseWithStatus"
+import { generateToken } from "../utils/token"
 
 export default defineEventHandler(async (e) => {
 	const body = await readBody(e)
@@ -11,19 +12,19 @@ export default defineEventHandler(async (e) => {
 			maxAge: 86400000
 		})
 		
-		return {
+		return responseWithStatus(e, {
 			status: 200,
 			body: "login successfully",
-		}
+		})
 	} else {
-		return {
+		return responseWithStatus(e, {
 			status: 400,
 			body: "username(or email) or password wrong",
-		}
+		})
 	}
 
-	return {
+	return responseWithStatus(e, {
 		status: 500,
-		body: 'unknown error'
-	}
+		body: 'unknown error',
+	})
 })

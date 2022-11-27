@@ -1,5 +1,6 @@
 import { tokens } from "../cache"
 import { db } from "../db"
+import { responseWithStatus } from "../utils/responseWithStatus"
 
 export default defineEventHandler(async (e) => {
     const token = getCookie(e, 'token')
@@ -20,10 +21,10 @@ export default defineEventHandler(async (e) => {
 
     e.context.requireAuthorization = () => {
         if (!e.context.authorized) {
-            return {
+            return responseWithStatus(e, {
                 status: 401,
-                body: 'unauthorized'
-            }
+                body: 'unauthorized',
+            })
         }
     }
 })

@@ -51,18 +51,21 @@ export const useUserStore = defineStore("user", {
 				body: user,
 			})
 
-			const status = (result.data.value as any).status
-			if (status === 409) {
-				return UserRegisterResult.Exists
-			} else if (status === 500) {
-				return UserRegisterResult.ServerError
-			} else if (status === 422) {
-				return UserRegisterResult.Missing
-			} else if (status === 200) {
-				return UserRegisterResult.Success
+			if (result.error.value) {
+				const status = result.error.value.status
+				if (status === 409) {
+					return UserRegisterResult.Exists
+				} else if (status === 500) {
+					return UserRegisterResult.ServerError
+				} else if (status === 422) {
+					return UserRegisterResult.Missing
+				}else {
+					return UserRegisterResult.Unknown
+				}
 			} else {
-				return UserRegisterResult.Unknown
+				return UserRegisterResult.Success
 			}
+			
 		},
 		async login(user: { usernameOrEmail?: string; password: string }) {
 			if (!user.usernameOrEmail || !user.password) {
@@ -74,21 +77,24 @@ export const useUserStore = defineStore("user", {
 				body: user,
 			})
 
-			const data = result.data.value as any
-			if (data.status === 200) {
-				this.authorized = true
-
-				return UserLoginResult.Success
-			} else if (data.status === 400) {
-				return UserLoginResult.Wrong
+			if (result.error.value) {
+				const status = result.error.value.status
+				if (status === 400) {
+					return UserLoginResult.Wrong
+				} else {
+					return UserLoginResult.Unknown
+				}
 			} else {
-				return UserLoginResult.Unknown
+				this.authorized = true
+	
+				return UserLoginResult.Success
 			}
 		},
 		async getUser() {
-			const result = (await useFetch('/api/user')).data.value as any
-			if (result?.status === 200) {
-				return result?.body
+			const result = await useFetch('/api/user')
+			console.log(result)
+			if (!result.error.value) {
+				return result.data.value
 			} else {
 				return
 			}

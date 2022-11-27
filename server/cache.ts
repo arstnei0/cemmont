@@ -1,5 +1,4 @@
 import Keyv from "keyv"
 
-export const tokens = new Keyv({
-    
-})
+const config = useRuntimeConfig()
+export const tokens = config.db.redis ? new Keyv(config.db.redis): new Keyv()
