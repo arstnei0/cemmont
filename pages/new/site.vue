@@ -30,6 +30,9 @@ const create = async () => {
     const result = await siteStore.createSite({ ...info })
     if (result === CreateSiteResult.Missing) missing.value = true
     else if (result === CreateSiteResult.Conflict) conflict.value = true
-    else if (result === CreateSiteResult.Success) success.value = true
+    else if (result === CreateSiteResult.Success) {
+        success.value = true
+        delay(() => useRouter().push('/dashboard'))
+    }
 }
 </script>

@@ -10,6 +10,7 @@
 	<v-btn color="success" @click="register" :disabled="allowRegister">
 		Register
 	</v-btn>
+	<p>Or you can <NuxtLink to="/login">login to an existing account</NuxtLink>.</p>
 	<VAlert v-if="exists" type="error">
 		A user with this email or username already exists!
 	</VAlert>
@@ -37,6 +38,8 @@ const register = async () => {
 		exists.value = false
 	}
 }
+
+authencatedGoToDashboard()
 </script>
 
 <style scoped></style>

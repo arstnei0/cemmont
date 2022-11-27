@@ -7,7 +7,8 @@
 	</div>
 
 	<VList lines="one">
-		<VListItem v-for="site of sites" :title="site.name" :key="site.id">
+		<VListItem v-for="site of siteStore.sites" :key="site.id">
+			<VListItemTitle><NuxtLink :to="`/site/${site.id}`">{{site.name}}</NuxtLink></VListItemTitle>
 		</VListItem>
 	</VList>
 </template>
@@ -16,11 +17,11 @@
 const userStore = useUserStore()
 const siteStore = useSiteStore()
 
-const sites = ref<any[]>([])
-
 onMounted(async () => {
-	sites.value = await siteStore.fetchSites()
+	await siteStore.fetchSites()
 })
+
+await requireAuth()
 </script>
 
 <style scoped>

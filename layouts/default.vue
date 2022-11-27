@@ -1,10 +1,6 @@
 <template>
 	<VLayout>
-		<VAppBar :elevation="5" rounded>
-			<ClientOnly>
-				<Header></Header>
-			</ClientOnly>
-		</VAppBar>
+		<Header></Header>
 		<VMain>
 			<main>
 				<slot />
@@ -22,6 +18,12 @@ const vueApp = nuxtApp.vueApp
 // use pinia
 const pinia = createPinia()
 vueApp.use(pinia)
+
+const userStore = useUserStore()
+
+useRouter().afterEach(async () => {
+	userStore.$reset()
+})
 </script>
 
 <style lang="scss">

@@ -1,4 +1,5 @@
 import { defineStore } from "pinia"
+import { Site } from "./types"
 
 export enum CreateSiteResult {
 	Success,
@@ -10,7 +11,7 @@ export enum CreateSiteResult {
 export const useSiteStore = defineStore("site", {
 	state: () => {
 		return {
-			sites: [],
+			sites: [] as Site[],
 		}
 	},
 	actions: {
@@ -21,7 +22,7 @@ export const useSiteStore = defineStore("site", {
 
 			if (result.error.value) return []
 
-			return result.data.value
+			this.sites = result.data.value
 		},
 		async createSite(site: { name: string; id: string }) {
 			const userStore = useUserStore()
@@ -45,5 +46,10 @@ export const useSiteStore = defineStore("site", {
 
 			return CreateSiteResult.Success
 		},
+		async getSiteById(id: Site['id']) {
+			const result = await useFetch('/api/site/' + id)
+
+			return result.data.value
+		}
 	},
 })

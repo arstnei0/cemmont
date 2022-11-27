@@ -1,4 +1,5 @@
 import postgres from "postgres"
+import { Site, UserSecret } from "~~/composables/types"
 import { log } from "../composables/log"
 
 const config = useRuntimeConfig()
@@ -53,12 +54,14 @@ const createUser = async (user: {
 	username: string
 	email: string
 	password: string
-}) => {
-	const result = await sql`
+}): Promise<UserSecret> => {
+	const result = (
+		await sql`
 	INSERT INTO Users ${sql(user, "username", "email", "password")} RETURNING *
 	`
+	)[0]
 
-	return result
+	return result as UserSecret
 }
 
 const loginUser = async (user: {
@@ -74,21 +77,15 @@ const loginUser = async (user: {
 	return result.count === 1
 }
 
-const getEmail = async (usernameOrEmail: string) =>
+const getEmail = async (usernameOrEmail: string): Promise<string> =>
 	(
 		await sql`SELECT email
 	FROM Users
 	WHERE (username = ${usernameOrEmail} OR email = ${usernameOrEmail})`
 	)[0]?.email
 
-const getUserByEmail = async (email: string) =>
-	(await sql`SELECT * FROM Users WHERE email = ${email}`)[0]
-
-export interface Site {
-	name: string
-	owner: string
-	id: string
-}
+const getUserByEmail = async (email: string): Promise<UserSecret> =>
+	(await sql`SELECT * FROM Users WHERE email = ${email}`)[0] as UserSecret
 
 const createSite = async (site: Site) => {
 	return await sql`
@@ -96,10 +93,14 @@ const createSite = async (site: Site) => {
 	`
 }
 
-const getSitesByOwner = async (owner: string) => {
+const getSitesByOwner = async (owner: string): Promise<Site[]> => {
 	return await sql`
 	SELECT * FROM Sites WHERE owner = ${owner}
 	`
+}
+
+const getSiteById = async (id: string) => {
+	return (await sql`SELECT * FROM Sites WHERE id = ${id}`)[0]
 }
 
 export const db = {
@@ -112,4 +113,5 @@ export const db = {
 	createSite,
 	getUserByEmail,
 	getSitesByOwner,
+	getSiteById,
 }

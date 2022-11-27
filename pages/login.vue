@@ -12,15 +12,16 @@
 	<v-btn color="success" @click="register" :disabled="allowLogin">
 		Login
 	</v-btn>
-	<VAlert v-if="wrong" type="error">
-		Username (or email) or password wrong!
-	</VAlert>
+	<p>Or you can <NuxtLink to="/register">register a new account</NuxtLink>.</p>
+	<VSnackbar v-model="wrong" color="error">Username (or email) or password wrong!</VSnackbar>
+	<VSnackbar v-model="success" color="success">Login successfully!</VSnackbar>
 </template>
 
 <script setup lang="ts">
 const userStore = useUserStore()
 
 const wrong = ref(false)
+const success = ref(false)
 
 const user = reactive({
 	usernameOrEmail: "",
@@ -37,7 +38,15 @@ const register = async () => {
 	} else {
 		wrong.value = false
 	}
+
+	if (result === UserLoginResult.Success) {
+		success.value = true
+
+		delay(() => useRouter().push('/dashboard'))
+	}
 }
+
+authencatedGoToDashboard()
 </script>
 
 <style scoped></style>

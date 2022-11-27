@@ -89,13 +89,19 @@ export const useUserStore = defineStore("user", {
 				return UserLoginResult.Success
 			}
 		},
-		async getUser() {
-			const result = await useFetch("/api/user")
-			if (!result.error.value) {
-				return result.data.value
+	},
+	getters: {
+		async user() {
+			if (this.authorized) {
+				const result = await useFetch("/api/user")
+				if (!result.error.value) {
+					return result.data.value
+				} else {
+					return
+				}
 			} else {
 				return
 			}
-		},
-	},
+		}
+	}
 })
