@@ -5,3 +5,8 @@
 .nm {
     color: black;
 }
+
+.bar {
+    display: flex;
+    justify-content: space-between;
+}

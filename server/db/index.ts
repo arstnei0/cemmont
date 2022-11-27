@@ -1,42 +1,14 @@
 import postgres from "postgres"
 import { Site, UserSecret } from "~~/composables/types"
-import { log } from "../composables/log"
+import { log } from "../../composables/log"
+import { reset } from "./tables"
 
 const config = useRuntimeConfig()
 
-const sql = postgres({
+export const sql = postgres({
 	...config.db,
 	ssl: { rejectUnauthorized: false },
 } as any)
-
-const reset = async () => {
-	log("Reseting tables:")
-
-	await sql`
-	DROP TABLE IF EXISTS Users
-	`
-	await sql`
-	CREATE TABLE Users (
-		username TEXT NOT NULL,
-		email TEXT PRIMARY KEY NOT NULL,
-		password TEXT NOT NULL
-	)
-	`
-	log(`Table Users reset.`)
-
-	await sql`
-	DROP TABLE IF EXISTS Sites
-	`
-	await sql`
-	CREATE TABLE Sites (
-		owner TEXT NOT NULL,
-		name TEXT NOT NULL,
-		id VARCHAR(50) PRIMARY KEY NOT NULL
-	)
-	`
-
-	log(`Table Sites reset.`)
-}
 
 if (config.db.reset) reset()
 
@@ -103,6 +75,13 @@ const getSiteById = async (id: string) => {
 	return (await sql`SELECT * FROM Sites WHERE id = ${id}`)[0]
 }
 
+const updateSiteById = async (id: string, updates: any) => {
+	return await sql`UPDATE Sites
+	SET ${sql(updates, 'page_identification', 'reactions_enabled', 'comment_box_above')}
+	WHERE id = ${id}
+	`
+}
+
 export const db = {
 	sql,
 	reset,
@@ -114,4 +93,5 @@ export const db = {
 	getUserByEmail,
 	getSitesByOwner,
 	getSiteById,
+	updateSiteById,
 }

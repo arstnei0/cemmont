@@ -9,12 +9,14 @@
 		"format": "prettier --write ."
 	},
 	"devDependencies": {
+		"@types/cors": "^2.8.12",
 		"nuxt": "3.0.0",
 		"prettier": "^2.8.0"
 	},
 	"dependencies": {
 		"@keyv/redis": "^2.5.3",
 		"@mdi/font": "^7.0.96",
+		"cors": "^2.8.5",
 		"h3": "^1.0.1",
 		"keyv": "^4.5.2",
 		"pinia": "^2.0.26",

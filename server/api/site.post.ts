@@ -6,14 +6,19 @@ export default defineEventHandler(async (e) => {
 	const _ = e.context.requireAuthorization(e)
 	if (_) return _
 
-	const [body, res] = await bodyRequire(e, ["name", "id"])
+	const [body, res] = await bodyRequire(e, [
+		"name",
+		"id",
+		"page_identification",
+		"reactions_enabled",
+		"comment_box_above",
+	])
 	if (res) return res
 
 	try {
 		const result = await db.createSite({
 			owner: e.context.email,
-			name: body.name,
-			id: body.id,
+			...body,
 		})
 
 		return responseWithStatus(e, {

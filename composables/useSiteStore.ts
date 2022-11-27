@@ -1,5 +1,5 @@
 import { defineStore } from "pinia"
-import { Site } from "./types"
+import { PageIdentification, Site } from "./types"
 
 export enum CreateSiteResult {
 	Success,
@@ -29,7 +29,12 @@ export const useSiteStore = defineStore("site", {
 
 			const result = await useFetch("/api/site", {
 				method: "POST",
-				body: site,
+				body: {
+					page_identification: PageIdentification.urlPath,
+					reactions_enabled: true,
+					comment_box_above: true,
+					...site,
+				},
 			})
 
 			if (result.error.value) {
@@ -50,6 +55,16 @@ export const useSiteStore = defineStore("site", {
 			const result = await useFetch('/api/site/' + id)
 
 			return result.data.value
+		},
+		async updateSiteById(id: Site['id'], updates: any) {
+			const result = await useFetch(`/api/site/${id}`, {
+				method: 'POST',
+				body: updates,
+			})
+
+			console.log(result)
+
+			return result
 		}
 	},
 })

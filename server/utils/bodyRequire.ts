@@ -8,7 +8,7 @@ export const bodyRequire = async (
 	const body = await readBody(e)
 
 	for (let require of requires) {
-		if (!body[require]) {
+		if (body[require] === undefined && body[require] === null) {
 			return [
 				body,
 				responseWithStatus(e, {
