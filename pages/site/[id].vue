@@ -1,5 +1,8 @@
 <template>
-    <h1>Site info: </h1>
+    <div class="bar">
+        <h1>Site info: </h1>
+        <NuxtLink :to="`/setup/${id}`"><VBtn color="primary">Setup on your website</VBtn></NuxtLink>
+    </div>
     <p>
         Site name: {{info.name}}<br>
         Site id: {{info.id}}<br>

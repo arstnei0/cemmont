@@ -1,6 +1,8 @@
 <template>
 	<VLayout>
-		<Header></Header>
+		<ClientOnly>
+			<Header></Header>
+		</ClientOnly>
 		<VMain>
 			<main>
 				<slot />
