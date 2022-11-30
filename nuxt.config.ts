@@ -1,4 +1,7 @@
-// https://nuxt.com/docs/api/configuration/nuxt-config
+import { reset } from "~~/server/db/tables"
+
+const ifResetDB = process.env.DB_RESET === "true"
+
 export default defineNuxtConfig({
 	modules: [],
 	runtimeConfig: {
@@ -8,7 +11,7 @@ export default defineNuxtConfig({
 			database: process.env.DB_NAME,
 			username: process.env.DB_USER,
 			password: process.env.DB_PASSWORD,
-			reset: process.env.DB_RESET === "true",
+			reset: ifResetDB,
 			redis: process.env.DB_REDIS,
 		},
 	},
@@ -22,4 +25,9 @@ export default defineNuxtConfig({
 		},
 	},
 	ssr: false,
+	hooks: {
+		"build:done"() {
+			if (ifResetDB) reset()
+		},
+	},
 })

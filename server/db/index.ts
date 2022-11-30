@@ -10,8 +10,6 @@ export const sql = postgres({
 	ssl: { rejectUnauthorized: false },
 } as any)
 
-if (config.db.reset) reset()
-
 const checkIfUserExists = async (user: { email: string }) => {
 	return (
 		(
