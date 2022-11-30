@@ -1,4 +1,4 @@
-import { reset } from "~~/server/db/tables"
+import { reset } from "./server/db/tables"
 
 const ifResetDB = process.env.DB_RESET === "true"
 
