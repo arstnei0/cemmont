@@ -3,6 +3,10 @@
 		<h1>Comments</h1>
 		<VTextarea label="Comment" v-model="commentText"></VTextarea>
 		<VBtn @click="submit()">Submit</VBtn>
+
+		<div class="comment" v-for="comment in comments">
+			{{comment.content}}
+		</div>
 	</div>
 </template>
 
@@ -14,7 +18,7 @@
 
 <script setup lang="ts">
 import "~~/layouts/setup"
-import { Site } from "~~/composables/types"
+import { MyComment, Site } from "~~/composables/types"
 
 useHead({
 	meta: [
@@ -53,10 +57,7 @@ switch (siteInfo.page_identification) {
 		break
 }
 
-const comments = await pageStore.getPageAndComments(
-	pageId as string,
-	siteId as string
-)
+const comments = ref<MyComment[]>([])
 
 definePageMeta({
 	layout: false,
@@ -65,11 +66,21 @@ const updateWindowHeight = () => {
 	window.parent.postMessage("resize iframe")
 }
 
-onMounted(() => updateWindowHeight())
+const fetchComments =async() => {
+	comments.value = (await pageStore.getPageAndComments(
+		pageId as string,
+		siteId as string
+	)).comments
+	updateWindowHeight()
+}
+
+onMounted(async () => {
+	updateWindowHeight()
+	await fetchComments()
+})
 
 const submit = async () => {
 	await pageStore.submitComment(pageId as string, commentText.value)
+	await fetchComments()
 }
-
-console.log(comments)
 </script>

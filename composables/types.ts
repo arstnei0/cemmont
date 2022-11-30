@@ -33,4 +33,5 @@ export interface MyComment {
 	sender_email?: string
 	page: string
 	id: number
+	content: string
 }

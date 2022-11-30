@@ -10,7 +10,6 @@ code += `const s=document.getElementById('cemmont-script');`
 code += `let f=document.createElement('iframe');`
 code += `f.src="${baseUrl}iframe/<<ID>>";`
 code += `f.id='cemmont-iframe';`
-// code += `console.log(f.contentWindow);f.height=f.contentWindow.document.body.scrollHeight;`
 code += `f.style.width='100%';f.frameBorder = '0';f.scrolling = 'no';`
 code += `s.insertAdjacentElement('afterend', f);`
 code += `f=window.frames['cemmont-iframe'];`
