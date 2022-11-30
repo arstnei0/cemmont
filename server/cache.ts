@@ -1,7 +1,10 @@
 import Keyv from "keyv"
 
 const config = useRuntimeConfig()
-export const tokens = config.db.redis ? new Keyv(config.db.redis) : new Keyv()
+const tokensConfig = {
+	namespace: import.meta.env.NODE_ENV === 'development' ? 'Dtokens' : 'tokens'
+}
+export const tokens = config.db.redis ? new Keyv(config.db.redis, tokensConfig) : new Keyv(tokensConfig)
 
 if (config.db.reset) {
 	tokens.clear()
