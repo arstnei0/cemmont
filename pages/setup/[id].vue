@@ -21,13 +21,14 @@ const info = (await siteStore.getSiteById(id as string)) as Site
 const config = useRuntimeConfig()
 
 const url = `${baseUrl}api/script/${id}`
-const code = `<script id="cemmont-script" src="${url}" defer>` + "</" + "script>"
+const code =
+	`<script id="cemmont-script" src="${url}" defer>` + "</" + "script>"
 
 onMounted(() => {
 	const scriptEl = document.createElement("script")
 	scriptEl.src = url
 	scriptEl.defer = true
-	scriptEl.id = 'cemmont-script'
+	scriptEl.id = "cemmont-script"
 	document.getElementById("script-place")?.appendChild(scriptEl)
 })
 </script>

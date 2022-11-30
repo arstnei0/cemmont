@@ -1,5 +1,5 @@
 import postgres from "postgres"
-import { Site, UserSecret } from "~~/composables/types"
+import { MyComment, Page, Site, UserSecret } from "~~/composables/types"
 import { log } from "../../composables/log"
 import { reset } from "./tables"
 
@@ -77,8 +77,39 @@ const getSiteById = async (id: string) => {
 
 const updateSiteById = async (id: string, updates: any) => {
 	return await sql`UPDATE Sites
-	SET ${sql(updates, 'page_identification', 'reactions_enabled', 'comment_box_above')}
+	SET ${sql(
+		updates,
+		"page_identification",
+		"reactions_enabled",
+		"comment_box_above"
+	)}
 	WHERE id = ${id}
+	`
+}
+
+const getPageById = async (id: string) => {
+	return await sql`SELECT * FROM Pages WHERE id = ${id}`
+}
+
+const createPage = async (page: Page) => {
+	return await sql`INSERT INTO Pages ${sql(page, "site", "id")} RETURNING *`
+}
+
+const getCommentsByPage = async (page: string) => {
+	return await sql`
+	SELECT * FROM Comments WHERE page = ${page}
+	`
+}
+
+const createComment = async (comment: any) => {
+	return await sql`
+	INSERT INTO Comments ${sql(
+		comment,
+		"sender_name",
+		"sender_email",
+		"page",
+		"content"
+	)}
 	`
 }
 
@@ -94,4 +125,8 @@ export const db = {
 	getSitesByOwner,
 	getSiteById,
 	updateSiteById,
+	getPageById,
+	createPage,
+	getCommentsByPage,
+	createComment,
 }

@@ -51,20 +51,20 @@ export const useSiteStore = defineStore("site", {
 
 			return CreateSiteResult.Success
 		},
-		async getSiteById(id: Site['id']) {
-			const result = await useFetch('/api/site/' + id)
+		async getSiteById(id: Site["id"]) {
+			const result = await useFetch("/api/site/" + id)
 
 			return result.data.value
 		},
-		async updateSiteById(id: Site['id'], updates: any) {
+		async updateSiteById(id: Site["id"], updates: any) {
 			const result = await useFetch(`/api/site/${id}`, {
-				method: 'POST',
+				method: "POST",
 				body: updates,
 			})
 
 			console.log(result)
 
 			return result
-		}
+		},
 	},
 })

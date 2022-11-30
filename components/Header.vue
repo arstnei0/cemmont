@@ -20,7 +20,11 @@
 
 				<VList v-if="userStore.authorized">
 					<VListItem>
-						<VListItemTitle><NuxtLink to="/logout">Logout</NuxtLink></VListItemTitle>
+						<VListItemTitle
+							><NuxtLink to="/logout"
+								>Logout</NuxtLink
+							></VListItemTitle
+						>
 					</VListItem>
 				</VList>
 			</VMenu>
@@ -34,7 +38,7 @@ const userStore = useUserStore()
 const user = ref<any>({})
 onMounted(async () => {
 	watchEffect(async () => {
-		user.value = await userStore.user || {}
+		user.value = (await userStore.user) || {}
 	})
 })
 </script>

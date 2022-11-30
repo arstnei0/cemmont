@@ -1,6 +1,6 @@
-import { tokens } from "../cache"
-import { db } from "../db"
-import { responseWithStatus } from "../utils/responseWithStatus"
+import { tokens } from "../../cache"
+import { db } from "../../db"
+import { responseWithStatus } from "../../utils/responseWithStatus"
 
 export default defineEventHandler(async (e) => {
 	return (

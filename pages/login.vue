@@ -12,8 +12,12 @@
 	<v-btn color="success" @click="register" :disabled="allowLogin">
 		Login
 	</v-btn>
-	<p>Or you can <NuxtLink to="/register">register a new account</NuxtLink>.</p>
-	<VSnackbar v-model="wrong" color="error">Username (or email) or password wrong!</VSnackbar>
+	<p>
+		Or you can <NuxtLink to="/register">register a new account</NuxtLink>.
+	</p>
+	<VSnackbar v-model="wrong" color="error"
+		>Username (or email) or password wrong!</VSnackbar
+	>
 	<VSnackbar v-model="success" color="success">Login successfully!</VSnackbar>
 </template>
 
@@ -42,7 +46,7 @@ const register = async () => {
 	if (result === UserLoginResult.Success) {
 		success.value = true
 
-		delay(() => useRouter().push('/dashboard'))
+		delay(() => useRouter().push("/dashboard"))
 	}
 }
 

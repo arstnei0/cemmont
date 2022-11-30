@@ -8,7 +8,11 @@
 
 	<VList lines="one">
 		<VListItem v-for="site of siteStore.sites" :key="site.id">
-			<VListItemTitle><NuxtLink :to="`/site/${site.id}`">{{site.name}}</NuxtLink></VListItemTitle>
+			<VListItemTitle
+				><NuxtLink :to="`/site/${site.id}`">{{
+					site.name
+				}}</NuxtLink></VListItemTitle
+			>
 		</VListItem>
 	</VList>
 </template>
@@ -25,9 +29,9 @@ await requireAuth()
 </script>
 
 <style scoped>
-	.title {
-		display: flex;
-		justify-content: space-between;
-		padding: 1em;
-	}
+.title {
+	display: flex;
+	justify-content: space-between;
+	padding: 1em;
+}
 </style>

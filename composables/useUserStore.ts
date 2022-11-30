@@ -46,7 +46,7 @@ export const useUserStore = defineStore("user", {
 			email: string
 			password: string
 		}) {
-			const result = await useFetch("/api/register", {
+			const result = await useFetch("/api/auth/register", {
 				method: "POST",
 				body: user,
 			})
@@ -71,7 +71,7 @@ export const useUserStore = defineStore("user", {
 				return UserLoginResult.Missing
 			}
 
-			const result = await useFetch("api/login", {
+			const result = await useFetch("/api/auth/login", {
 				method: "POST",
 				body: user,
 			})
@@ -93,7 +93,7 @@ export const useUserStore = defineStore("user", {
 	getters: {
 		async user() {
 			if (this.authorized) {
-				const result = await useFetch("/api/user")
+				const result = await useFetch("/api/auth/me")
 				if (!result.error.value) {
 					return result.data.value
 				} else {
@@ -102,6 +102,6 @@ export const useUserStore = defineStore("user", {
 			} else {
 				return
 			}
-		}
-	}
+		},
+	},
 })

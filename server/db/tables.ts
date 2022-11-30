@@ -41,4 +41,31 @@ export const reset = async () => {
 	`
 
 	console.log(`Table Sites reset.`)
+
+	await sql`
+	DROP TABLE IF EXISTS Pages
+	`
+	await sql`
+	CREATE TABLE Pages (
+		site VARCHAR(50) NOT NULL,
+		id TEXT PRIMARY KEY NOT NULL
+	)
+	`
+
+	console.log(`Table Pages reset.`)
+
+	await sql`
+	DROP TABLE IF EXISTS Comments
+	`
+	await sql`
+	CREATE TABLE Comments (
+		sender_name TEXT,
+		sender_email TEXT,
+		page TEXT NOT NULL,
+		id SERIAL PRIMARY KEY,
+		content TEXT NOT NULL
+	)
+	`
+
+	console.log(`Table Comments reset.`)
 }

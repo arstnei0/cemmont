@@ -1,9 +1,9 @@
 <template>
-    <h1>Logout successfully!</h1>
+	<h1>Logout successfully!</h1>
 </template>
 
 <script setup lang="ts">
-const result = await useFetch('/api/logout')
+const result = await useFetch("/api/auth/logout")
 
-delay(() => useRouter().push('/dashboard'))
+delay(() => useRouter().push("/dashboard"))
 </script>

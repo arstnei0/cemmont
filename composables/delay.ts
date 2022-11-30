@@ -1,3 +1,3 @@
 export const delay = (fn: any) => {
-    setTimeout(fn, 1000)
+	setTimeout(fn, 1000)
 }

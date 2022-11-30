@@ -1,7 +1,7 @@
 import { db } from "~~/server/db"
-import { tokens } from "../cache"
-import { responseWithStatus } from "../utils/responseWithStatus"
-import { generateToken } from "../utils/token"
+import { tokens } from "../../cache"
+import { responseWithStatus } from "../../utils/responseWithStatus"
+import { generateToken } from "../../utils/token"
 
 export default defineEventHandler(async (e) => {
 	const body = await readBody(e)

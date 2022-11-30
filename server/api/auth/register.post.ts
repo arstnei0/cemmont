@@ -1,5 +1,5 @@
 import { db } from "~~/server/db"
-import { responseWithStatus } from "../utils/responseWithStatus"
+import { responseWithStatus } from "../../utils/responseWithStatus"
 
 export default defineEventHandler(async (e) => {
 	const body = await readBody(e)
