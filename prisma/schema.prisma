@@ -1,0 +1,50 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DB_URL")
+}
+
+model Comment {
+  sender   User   @relation(fields: [senderId], references: [id])
+  senderId String
+  page     String
+  id       Int    @id @default(autoincrement())
+  content  String
+}
+
+model Page {
+  site   Site   @relation(fields: [siteId], references: [id])
+  siteId String
+  id     String @id
+}
+
+model Site {
+  owner              User               @relation(fields: [ownerId], references: [id])
+  ownerId            String
+  name               String
+  id                 String             @id
+  pageIdentification PageIdentification
+  reactionsEnabled   Boolean
+  commentBoxAbove    Boolean
+  userId             String
+  pages              Page[]
+}
+
+model User {
+  username String
+  id       String    @id
+  email    String
+  password String
+  comments Comment[]
+  sites    Site[]
+}
+
+enum PageIdentification {
+  urlPath
+  fullUrl
+  pageTitleHtmlTag
+  pageTitleMetaOg
+}

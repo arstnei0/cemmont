@@ -1,9 +1,8 @@
-import { reset } from "./server/db/tables"
-
-const ifResetDB = process.env.DB_RESET === "true"
-
 export default defineNuxtConfig({
-	modules: [],
+	modules: [
+		"@pinia/nuxt",
+		'@sidebase/nuxt-auth',
+	],
 	runtimeConfig: {
 		db: {
 			host: process.env.DB_HOST,
@@ -11,7 +10,6 @@ export default defineNuxtConfig({
 			database: process.env.DB_NAME,
 			username: process.env.DB_USER,
 			password: process.env.DB_PASSWORD,
-			reset: ifResetDB,
 			redis: process.env.DB_REDIS,
 		},
 	},
@@ -25,9 +23,7 @@ export default defineNuxtConfig({
 		},
 	},
 	ssr: false,
-	hooks: {
-		"build:done"() {
-			if (ifResetDB) reset()
-		},
-	},
+	auth: {
+		
+	}
 })

@@ -25,7 +25,6 @@ onMounted(async () => {
 	await siteStore.fetchSites()
 })
 
-await requireAuth()
 </script>
 
 <style scoped>

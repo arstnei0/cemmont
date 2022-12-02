@@ -1,6 +1,6 @@
 <template>
 	<h1>Login</h1>
-	<VTextField
+	<!-- <VTextField
 		label="Username or Email"
 		v-model="user.usernameOrEmail"
 	></VTextField>
@@ -18,39 +18,10 @@
 	<VSnackbar v-model="wrong" color="error"
 		>Username (or email) or password wrong!</VSnackbar
 	>
-	<VSnackbar v-model="success" color="success">Login successfully!</VSnackbar>
+	<VSnackbar v-model="success" color="success">Login successfully!</VSnackbar> -->
 </template>
 
 <script setup lang="ts">
-const userStore = useUserStore()
-
-const wrong = ref(false)
-const success = ref(false)
-
-const user = reactive({
-	usernameOrEmail: "",
-	password: "",
-})
-
-const allowLogin = computed(() => !(user.usernameOrEmail && user.password))
-
-const register = async () => {
-	const result = await userStore.login({ ...user })
-
-	if (result === UserLoginResult.Wrong) {
-		wrong.value = true
-	} else {
-		wrong.value = false
-	}
-
-	if (result === UserLoginResult.Success) {
-		success.value = true
-
-		delay(() => useRouter().push("/dashboard"))
-	}
-}
-
-authencatedGoToDashboard()
 </script>
 
 <style scoped></style>

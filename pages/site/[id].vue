@@ -44,7 +44,7 @@
 <script setup lang="ts">
 import { Site } from "~~/composables/types"
 
-requireAuth()
+// requireAuth()
 
 const { params } = useRoute()
 const { id } = params
