@@ -72,7 +72,11 @@ switch (siteInfo.pageIdentification) {
 		break
 }
 
-const page = ref<any>([])
+const page = ref<any>(await pageStore.getPageAndComments(
+		pageId as string,
+		siteId as string
+	)
+)
 
 definePageMeta({
 	layout: false,
@@ -93,7 +97,6 @@ const fetchComments = async () => {
 
 onMounted(async () => {
 	updateWindowHeight()
-	await fetchComments()
 })
 
 const submit = async () => {

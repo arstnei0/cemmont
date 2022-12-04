@@ -1,6 +1,6 @@
 import { getServerSession } from "#auth"
 import { EventHandlerResponse, H3Event, EventHandler } from "h3"
-import { User } from "~~/prisma/client"
+import { User } from "@prisma/client"
 import { prisma } from "../db"
 
 export const requireAuthWrap = (

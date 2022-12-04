@@ -6,4 +6,4 @@ export {
     Site,
     Session,
     VerificationToken
-} from '~~/prisma/client/index'
+} from '@prisma/client'

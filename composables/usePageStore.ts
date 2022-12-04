@@ -11,7 +11,7 @@ export const usePageStore = defineStore("page", {
 				`/api/page/${site}/${encodeURIComponent(id)}`
 			)
 
-			return result.data.value as any as { comments: Comment[] }
+			return result.data.value
 		},
 		async submitComment(page: string, content: string) {
 			const result = await useFetch(`/api/comment/new`, {

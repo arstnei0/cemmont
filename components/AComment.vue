@@ -16,7 +16,7 @@
 </template>
 
 <script setup lang="ts">
-import { Comment, User } from "~~/prisma/client"
+import { Comment, User } from "@prisma/client"
 
 const props = defineProps<{
 	comment: Comment & {
