@@ -2,8 +2,6 @@ import { baseUrl } from "~~/composables/baseUrl"
 
 let code = ``
 
-const config = useRuntimeConfig()
-
 code += `const s=document.getElementById('cemmont-script');`
 // code += `const p=s.parentElement;`
 code += `let f=document.createElement('iframe');`
@@ -14,6 +12,7 @@ code += `s.insertAdjacentElement('afterend', f);`
 code += `f=window.frames['cemmont-iframe'];`
 code += `f.height=f.contentWindow.document.body.scrollHeight;`
 code += `window.addEventListener("message",(e)=>{if(e.data='resize iframe'){f.height=f.contentWindow.document.body.scrollHeight;}});`
+
 
 export default defineEventHandler(async (e) => {
 	const { id } = e.context.params

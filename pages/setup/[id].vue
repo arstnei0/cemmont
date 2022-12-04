@@ -30,7 +30,7 @@ const code =
 
 onMounted(() => {
 	const scriptEl = document.createElement("script")
-	scriptEl.src = url
+	scriptEl.src = `/api/script/${id}`
 	scriptEl.defer = true
 	scriptEl.id = "cemmont-script"
 	document.getElementById("script-place")?.appendChild(scriptEl)
