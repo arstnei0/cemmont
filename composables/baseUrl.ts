@@ -1,2 +1,2 @@
 export const baseUrl =
-	process.env.NODE_MODULE === "production" ? "https://cemmont.zihan.ga/" : "/"
+	import.meta.env.BASE_URL
