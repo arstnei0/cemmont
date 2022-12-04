@@ -6,7 +6,8 @@
 		"generate": "nuxt generate",
 		"preview": "nuxt preview",
 		"postinstall": "nuxt prepare",
-		"format": "prettier --write ."
+		"format": "prettier --write .",
+		"db:push": "prisma db push"
 	},
 	"devDependencies": {
 		"@types/cors": "^2.8.12",
