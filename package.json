@@ -10,23 +10,26 @@
 	},
 	"devDependencies": {
 		"@types/cors": "^2.8.12",
-		"nuxt": "3.0.0",
 		"prettier": "^2.8.0"
 	},
 	"dependencies": {
 		"@keyv/redis": "^2.5.3",
 		"@mdi/font": "^7.0.96",
+		"@next-auth/prisma-adapter": "^1.0.5",
 		"@pinia/nuxt": "^0.4.6",
-		"@prisma/client": "^4.7.0",
-		"@sidebase/nuxt-auth": "^0.2.0",
+		"@prisma/client": "^4.7.1",
+		"@sidebase/nuxt-auth": "0.2.1",
 		"cors": "^2.8.5",
 		"h3": "^1.0.1",
 		"keyv": "^4.5.2",
+		"nuxt": "3.0.0",
 		"pinia": "^2.0.27",
-		"prisma": "^4.7.0",
+		"primeflex": "^3.3.0",
+		"primeicons": "^6.0.1",
+		"primevue": "^3.20.0",
+		"prisma": "^4.7.1",
 		"sass": "^1.56.1",
 		"vitest": "^0.25.3",
-		"vue": "^3.2.45",
-		"vuetify": "3.0.1"
+		"vue": "^3.2.45"
 	}
 }

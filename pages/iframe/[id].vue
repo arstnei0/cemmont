@@ -1,11 +1,17 @@
 <template>
 	<div id="cemmont">
 		<h1>Comments</h1>
-		<VTextarea label="Comment" v-model="commentText"></VTextarea>
-		<VBtn @click="submit()">Submit</VBtn>
+		<Textarea
+			v-model="commentText"
+			:autoResize="true"
+			class="comment-input"
+		>
+		</Textarea>
+		<Button @click="submit()">Submit</Button>
 
-		<div class="comment" v-for="comment in comments">
-			{{comment.content}}
+		<div id="comments">
+			<AComment v-for="comment in page.comments" :comment="comment">
+			</AComment>
 		</div>
 	</div>
 </template>
@@ -17,8 +23,17 @@
 </style>
 
 <script setup lang="ts">
+import Textarea from "primevue/textarea"
 import "~~/layouts/setup"
-import { MyComment, Site } from "~~/composables/types"
+import { Site } from "~~/composables/types"
+import Button from "primevue/button"
+
+const PageIdentification = {
+	urlPath: "urlPath",
+	fullUrl: "fullUrl",
+	pageTitleHtmlTag: "pageTitleHtmlTag",
+	pageTitleMetaOg: "pageTitleMetaOg",
+}
 
 useHead({
 	meta: [
@@ -40,7 +55,7 @@ const siteInfo = (await siteStore.getSiteById(siteId as string)) as Site
 let pageId: string | null | undefined
 const route = useRoute()
 
-switch (siteInfo.page_identification) {
+switch (siteInfo.pageIdentification) {
 	case PageIdentification.fullUrl:
 		pageId = location.href
 		break
@@ -57,20 +72,22 @@ switch (siteInfo.page_identification) {
 		break
 }
 
-const comments = ref<MyComment[]>([])
+const page = ref<any>([])
 
 definePageMeta({
 	layout: false,
 })
+
 const updateWindowHeight = () => {
 	window.parent.postMessage("resize iframe")
 }
 
-const fetchComments =async() => {
-	comments.value = (await pageStore.getPageAndComments(
+const fetchComments = async () => {
+	page.value = await pageStore.getPageAndComments(
 		pageId as string,
 		siteId as string
-	)).comments
+	)
+
 	updateWindowHeight()
 }
 
@@ -83,4 +100,26 @@ const submit = async () => {
 	await pageStore.submitComment(pageId as string, commentText.value)
 	await fetchComments()
 }
+
+watch(commentText, () => {
+	updateWindowHeight()
+})
+
+import.meta.hot?.on("vite:beforeUpdate", () => {
+	setTimeout(updateWindowHeight, 200)
+})
 </script>
+
+<style>
+.comment-input {
+	width: 100%;
+}
+
+#comments {
+	margin: 1em;
+}
+
+#comments > * {
+	margin: 0.5em;
+}
+</style>

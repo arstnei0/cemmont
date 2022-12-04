@@ -5,6 +5,10 @@
 	<p>{{ code }}</p>
 
 	<div id="script-place"></div>
+
+	<div id="script">
+		
+	</div>
 </template>
 
 <script setup lang="ts">

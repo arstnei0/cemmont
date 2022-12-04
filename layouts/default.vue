@@ -1,14 +1,10 @@
 <template>
-	<VLayout>
-		<ClientOnly>
-			<Header></Header>
-		</ClientOnly>
-		<VMain>
-			<main>
-				<slot />
-			</main>
-		</VMain>
-	</VLayout>
+	<ClientOnly>
+		<Header></Header>
+	</ClientOnly>
+	<main>
+		<slot />
+	</main>
 </template>
 
 <script setup lang="ts">

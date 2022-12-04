@@ -22,17 +22,12 @@ export const useSiteStore = defineStore("site", {
 
 			if (result.error.value) return []
 
-			this.sites = result.data.value
+			this.sites = result.data.value as any as Site[]
 		},
 		async createSite(site: { name: string; id: string }) {
-			const userStore = useUserStore()
-
-			const result = await useFetch("/api/site", {
+			const result = await useFetch("/api/site/new", {
 				method: "POST",
 				body: {
-					page_identification: PageIdentification.urlPath,
-					reactions_enabled: true,
-					comment_box_above: true,
 					...site,
 				},
 			})
@@ -59,10 +54,8 @@ export const useSiteStore = defineStore("site", {
 		async updateSiteById(id: Site["id"], updates: any) {
 			const result = await useFetch(`/api/site/${id}`, {
 				method: "POST",
-				body: updates,
+				body: { ...updates },
 			})
-
-			console.log(result)
 
 			return result
 		},

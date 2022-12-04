@@ -1,23 +1,20 @@
 <template>
 	<h1>Create a new site</h1>
-
-	<VTextField label="Id" v-model="info.id"></VTextField>
-	<VTextField label="Name" v-model="info.name"></VTextField>
-
-	<VBtn color="primary" @click="create()">Create</VBtn>
-
-	<VSnackbar v-model="success" color="success"
-		>Site created successfully!</VSnackbar
-	>
-	<VSnackbar v-model="conflict" color="error"
-		>A site with this id already exists!</VSnackbar
-	>
-	<VSnackbar v-model="missing" color="warning"
-		>Please fill in all the fields!</VSnackbar
-	>
+	<span class="p-float-label">
+		<InputText v-model="info.name" id="name"></InputText>
+		<label for="name">Name</label>
+    </span>
+	<span class="p-float-label">
+		<InputText v-model="info.id" id="id"></InputText>
+		<label for="id">Id</label>
+    </span>
+	<Button @click="create()">Create</Button>
 </template>
 
 <script lang="ts" setup>
+import InputText from 'primevue/inputtext';
+import Button from 'primevue/button';
+
 const info = reactive({
 	id: "",
 	name: "",
@@ -38,7 +35,7 @@ const create = async () => {
 	else if (result === CreateSiteResult.Conflict) conflict.value = true
 	else if (result === CreateSiteResult.Success) {
 		success.value = true
-		delay(() => useRouter().push("/dashboard"))
+		// delay(() => useRouter().push("/dashboard"))
 	}
 }
 </script>

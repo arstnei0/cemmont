@@ -1,7 +1,7 @@
 export default defineNuxtConfig({
 	modules: [
-		"@pinia/nuxt",
 		'@sidebase/nuxt-auth',
+		"@pinia/nuxt",
 	],
 	runtimeConfig: {
 		db: {
@@ -13,9 +13,15 @@ export default defineNuxtConfig({
 			redis: process.env.DB_REDIS,
 		},
 	},
-	css: ["vuetify/lib/styles/main.sass", "/styles/global.css"],
+	css: [
+		'~~/styles/primevue-theme.css',
+		'primevue/resources/primevue.css',
+		'primeicons/primeicons.css',
+		'primeflex/primeflex.css',
+		'~~/styles/global.css'
+	],
 	build: {
-		transpile: ["vuetify"],
+		transpile: ["primevue"],
 	},
 	vite: {
 		define: {
@@ -24,6 +30,6 @@ export default defineNuxtConfig({
 	},
 	ssr: false,
 	auth: {
-		
+		origin: process.env['NODE_ENV'] === 'development' ? 'http://localhost:3000/' : 'https://cemmont.zihan.ga/'
 	}
 })

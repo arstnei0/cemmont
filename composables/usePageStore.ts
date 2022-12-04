@@ -1,5 +1,5 @@
 import { defineStore } from "pinia"
-import { MyComment } from "./types"
+import { Comment } from "./types"
 
 export const usePageStore = defineStore("page", {
 	state: () => {
@@ -11,7 +11,7 @@ export const usePageStore = defineStore("page", {
 				`/api/page/${site}/${encodeURIComponent(id)}`
 			)
 
-			return result.data.value as any as { comments: MyComment[] }
+			return result.data.value as any as { comments: Comment[] }
 		},
 		async submitComment(page: string, content: string) {
 			const result = await useFetch(`/api/comment/new`, {

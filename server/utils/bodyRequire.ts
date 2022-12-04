@@ -1,5 +1,4 @@
 import { H3Event } from "h3"
-import { responseWithStatus } from "./responseWithStatus"
 
 export const bodyRequire = async (
 	e: H3Event,
@@ -9,12 +8,10 @@ export const bodyRequire = async (
 
 	for (let require of requires) {
 		if (body[require] === undefined && body[require] === null) {
+			e.node.res.statusCode = 422
 			return [
 				body,
-				responseWithStatus(e, {
-					status: 422,
-					body: `${require} missing`,
-				}),
+				`${require} missing`
 			]
 		}
 	}

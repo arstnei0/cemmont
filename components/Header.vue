@@ -1,46 +1,42 @@
 <template>
-	<VAppBar :elevation="5" rounded>
-		<VAppBarTitle>
-			<NuxtLink to="/dashboard" class="nm">Dashboard</NuxtLink>
-		</VAppBarTitle>
-		<VSpacer></VSpacer>
-		<div id="right-nav">
-			<span>{{ user.username }}</span>
-			<VMenu>
-				<template v-slot:activator="{ props }">
-					<VBtn v-bind="props" icon>
-						<VAvatar size="32"
-							><VImg
-								:src="user.avatar || '/default.png'"
-								alt="avatar"
-							></VImg
-						></VAvatar>
-					</VBtn>
-				</template>
-
-				<VList v-if="userStore.authorized">
-					<VListItem>
-						<VListItemTitle
-							><NuxtLink to="/logout"
-								>Logout</NuxtLink
-							></VListItemTitle
-						>
-					</VListItem>
-				</VList>
-			</VMenu>
-		</div>
-	</VAppBar>
+	<Menubar :model="menuItems">
+		<template #end>
+			<div @click="toggleUserMenu" style="cursor: pointer;">
+				<Avatar :image="session.data.value?.user?.image || '/default.webp'"></Avatar>
+			</div>
+			<TieredMenu ref="userMenu" :model="userMenuItems" :popup="true" />
+		</template>
+	</Menubar>
 </template>
 
 <script setup lang="ts">
-const userStore = useUserStore()
+import Menubar from 'primevue/menubar'
+import Avatar from 'primevue/avatar'
+import TieredMenu from 'primevue/tieredmenu'
 
-const user = ref<any>({})
-onMounted(async () => {
-	watchEffect(async () => {
-		user.value = (await userStore.user) || {}
-	})
+const session = await useSession({
+	required: false
 })
+
+const menuItems = [
+	{
+		label: 'Dashboard',
+		to: '/dashboard'
+	}
+]
+
+const userMenuItems = [
+	{
+		label: 'logout',
+		command: () => session.signOut()
+	}
+]
+
+const userMenu = ref<any | null>(null)
+
+const toggleUserMenu = (event: any) => {
+	userMenu.value?.toggle(event)
+}
 </script>
 
 <style scoped>

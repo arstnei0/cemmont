@@ -1,12 +1,8 @@
 <template>
-	<div class="title">
-		<h1>Your Sites:</h1>
-		<NuxtLink to="/new/site">
-			<VBtn icon="mdi-plus"></VBtn>
-		</NuxtLink>
-	</div>
+	<h1>Your Sites:</h1>
+	<Button @click="navigateTo('/new/site')">Add a new site</Button>
 
-	<VList lines="one">
+	<!-- <VList lines="one">
 		<VListItem v-for="site of siteStore.sites" :key="site.id">
 			<VListItemTitle
 				><NuxtLink :to="`/site/${site.id}`">{{
@@ -14,17 +10,29 @@
 				}}</NuxtLink></VListItemTitle
 			>
 		</VListItem>
-	</VList>
+	</VList> -->
+	<div class="flex">
+		<Card v-for="site of siteStore.sites" :key="site.id">
+			<template #title>
+				<NuxtLink :to="`/site/${site.id}`">{{site.name}}</NuxtLink>
+			</template>
+		</Card>
+	</div>
 </template>
 
 <script setup lang="ts">
-const userStore = useUserStore()
+import Button from 'primevue/button'
+import Card from 'primevue/card'
+
+useSession({
+	required: true
+})
+
 const siteStore = useSiteStore()
 
 onMounted(async () => {
 	await siteStore.fetchSites()
 })
-
 </script>
 
 <style scoped>
